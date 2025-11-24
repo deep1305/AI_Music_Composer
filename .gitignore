@@ -16,3 +16,19 @@ code-explained.txt
 
 
 Gitlab+GCP+CICD.docx
+
+*.png
+
+gcp-key.json
+
+# Microsoft Office temporary files
+~$*
+
+# 3D model files
+*.wrl
+
+# GCP key files (sensitive!)
+gcp-key-base64.txt
+
+# Temporary files
+*.tmp

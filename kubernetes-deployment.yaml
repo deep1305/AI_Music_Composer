@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: llmops-app
+  labels:
+    app: llmops-app
 spec:
   replicas: 1
   selector:
@@ -14,27 +16,34 @@ spec:
     spec:
       containers:
       - name: llmops-app
-        image: us-central1-docker.pkg.dev/gen-lang-client-0729539659/llmops-repo/llmops-app:latest
+        image: us-central1-docker.pkg.dev/striking-gadget-478715-b0/llmops-repo/llmops-app:latest
         ports:
         - containerPort: 8501
         env:
         - name: GROQ_API_KEY
           valueFrom:
             secretKeyRef:
-              name: llmops-secrets
-              key: GROQ_API_KEY
-
+              name: app-secrets
+              key: groq-api-key
+        - name: USE_OLLAMA
+          value: "false"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: llmops-service
+  name: llmops-app-service
 spec:
+  type: LoadBalancer
   selector:
     app: llmops-app
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8501
-  type: LoadBalancer
+  - protocol: TCP
+    port: 80
+    targetPort: 8501
