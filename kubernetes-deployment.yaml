@@ -23,7 +23,7 @@ spec:
         - name: GROQ_API_KEY
           valueFrom:
             secretKeyRef:
-              name: app-secrets
+              name: llmops-secrets
               key: groq-api-key
         - name: USE_OLLAMA
           value: "false"
